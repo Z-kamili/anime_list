@@ -18,9 +18,20 @@ function updateDom(data)
 
     const searchResults = document.getElementById('search-results');
 
-    searchResults.innerHTML = data.results
-    .sort((a,b)=> a.episodes-b.episodes)
-    .map(anime=>{
+    // searchResults.innerHTML = "";
+
+    const animeByCategories = data.results
+    .reduce((acc,anime)=>{
+        const {type} = anime;
+        if(acc[type] === undefined) acc[type] = [];
+        acc[type].push(anime);
+        return acc;
+    },{});
+
+    searchResults.innerHTML = Object.keys(animeByCategories).map(key=>{
+        const animeHTML = animeByCategories[key]
+        .sort((a,b)=> a.episodes-b.episodes)
+        .map(anime=>{
         return `
         <div class="mt-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
         <a href="#">
@@ -37,11 +48,15 @@ function updateDom(data)
         </div>
     </div>
         `
-    });
+    }).join("");
 
-
-
-
+    return `
+       <section>
+            <h3>${key.toUpperCase()}</h3>
+            <div class="kemicofa-row">${animeHTML}</div>
+       </section>
+    `
+}).join("");
 }
 
 
