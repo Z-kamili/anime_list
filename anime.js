@@ -49,13 +49,6 @@ function updateDom(data)
     </div>
         `
     }).join("");
-
-    return `
-       <section>
-            <h3>${key.toUpperCase()}</h3>
-            <div class="kemicofa-row">${animeHTML}</div>
-       </section>
-    `
 }).join("");
 }
 
